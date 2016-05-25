@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pikachucatcher</string>
+    <string name="logo">logo</string>
+    <string name="btnMap">Map</string>
+    <string name="btnCatch">CATCH!</string>
+    <string name="btnResults">Zoo</string>
+    <string name="menuItemResults">Zoo</string>
+    <string name="menuItemDescription">Description</string>
+    <string name="descriptionText">description</string>
+    <string name="descriptionBtnCloseText">Close</string>
+    <string name="title_activity_maps">PikachuMap</string>
+</resources>
