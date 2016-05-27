@@ -1,4 +1,4 @@
-package no.westerdals.shiale14.pikachucatcher;
+package no.westerdals.shiale14.pikachucatcher.Activities;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+
+import no.westerdals.shiale14.pikachucatcher.R;
 
 /**
  * Created by Alexander on 25.05.2016.
