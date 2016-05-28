@@ -42,18 +42,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap map = googleMap;
 
         // Add a marker in Sydney and move the camera
         LocationDataSource lds = new LocationDataSource(this);
         lds.open();
-        LatLng last = null;
+        float sumLat = 0, sumLng = 0;
+        int count = 0;
         List<Location> locations = lds.getLocations();
         for(Location l : locations) {
-            map.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLng())).title(l.getLocationId()));
-            last = new LatLng(l.getLat(), l.getLng());
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLng())).title(l.getName()));
+            sumLat += l.getLat();
+            sumLng += l.getLng();
+            count++;
         }
-        map.moveCamera(CameraUpdateFactory.newLatLng(last));
+        lds.close();
+        LatLng avrLatLng = new LatLng(sumLat/count, sumLng/count);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(avrLatLng));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(avrLatLng, 12.8f));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -67,7 +72,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        lds.close();
-//        map.setMyLocationEnabled(true);
+        googleMap.setMyLocationEnabled(true);
     }
 }

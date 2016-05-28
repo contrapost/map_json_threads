@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,14 +19,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
 import no.westerdals.shiale14.pikachucatcher.DB.Location;
 import no.westerdals.shiale14.pikachucatcher.DB.LocationDataSource;
+import no.westerdals.shiale14.pikachucatcher.JSON.LocationJSON;
 import no.westerdals.shiale14.pikachucatcher.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadLocations() {
-        new AsyncTask<Void, Void, List<Location>>() {
+        new AsyncTask<Void, Void, List<LocationJSON>>() {
 
             private ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
 
@@ -115,10 +116,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            protected List<Location> doInBackground(final Void... params) {
+            protected List<LocationJSON> doInBackground(final Void... params) {
 
                 try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL("https://locations.lehmann.tech/locations").openConnection();
+                    HttpURLConnection connection =
+                            (HttpURLConnection) new URL("https://locations.lehmann.tech/locations").openConnection();
                     Scanner scanner = new Scanner(connection.getInputStream());
 
                     final StringBuilder builder = new StringBuilder();
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     String json = builder.toString();
 
                     Gson gson = new Gson();
-                    Type collectionType = new TypeToken<List<Location>>() {
+                    Type collectionType = new TypeToken<List<LocationJSON>>() {
                     }.getType();
 
                     return gson.fromJson(json, collectionType);
@@ -140,44 +142,47 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(final List<Location> locationsFromJson) {
+            protected void onPostExecute(final List<LocationJSON> locationsFromJson) {
                 super.onPostExecute(locationsFromJson);
 
                 LocationDataSource locationDataSource = new LocationDataSource(context);
-
                 locationDataSource.open();
 
-                List<Location> loc = locationDataSource.getLocations();
+                //TODO: here can be developed a more efficient way to save/update location data
 
-//                if (locationDataSource.getLocations().size() == 0) {
-//                    for (Location l : locationsFromJson) {
-//                        Location location = new Location();
-//                        location.setLocationId(l.getId()+"");
-//                        location.setName(l.getName());
-//                        location.setLat(l.getLat());
-//                        location.setLng(l.getLng());
-//                        locationDataSource.saveLocation(location);
-//                    }
-//                } else {
-//                    List<Location> locationsFromDB = locationDataSource.getLocations();
-//                    for (Location l : locationsFromJson) {
-//                        String id = l.getLocationId();
-//                        for (Location location : locationsFromDB) {
-//                            if (location.getLocationId().equals(id)) {
-//                                break;
-//                            }
-//                            Location tempLocation = new Location();
-//                            tempLocation.setLocationId(l.getLocationId());
-//                            tempLocation.setName(l.getName());
-//                            tempLocation.setLat(l.getLat());
-//                            tempLocation.setLng(l.getLng());
-//                            locationDataSource.saveLocation(tempLocation);
-//                        }
-//                    }
-//                }
+                if (locationDataSource.getLocations().isEmpty()) {
+                    for (LocationJSON l : locationsFromJson) {
+                        saveLocation(l, locationDataSource);
+                    }
+                } else {
+                    List<Location> locationsFromDB = locationDataSource.getLocations();
+                    HashSet<String> locationIds = new HashSet<>(locationsFromDB.size());
+                    for (Location l : locationsFromDB) {
+                        locationIds.add(l.getLocationId());
+                    }
+                    for (LocationJSON l : locationsFromJson) {
+                            if (locationIds.contains(l.get_id())
+                                    || l.get_id() == null) { // prevents from saving locations without _id
+                                break;
+                            }
+                            saveLocation(l, locationDataSource);
+                    }
+                }
+
                 locationDataSource.close();
+
                 progressDialog.cancel();
             }
+
+            private void saveLocation(LocationJSON location, LocationDataSource locationDataSource) {
+                Location tempLocation = new Location();
+                tempLocation.setLocationId(location.get_id());
+                tempLocation.setName(location.getName());
+                tempLocation.setLat(location.getLat());
+                tempLocation.setLng(location.getLng());
+                locationDataSource.saveLocation(tempLocation);
+            }
+
         }.execute();
     }
 }

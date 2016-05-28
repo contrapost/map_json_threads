@@ -30,8 +30,6 @@ public class ResultActivity extends AppCompatActivity {
         assert listView != null;
         listView.setAdapter(adapter);
 
-
-
         lds.close();
     }
 }

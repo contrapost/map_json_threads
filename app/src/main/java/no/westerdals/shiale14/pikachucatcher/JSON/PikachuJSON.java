@@ -1,21 +1,12 @@
-package no.westerdals.shiale14.pikachucatcher.DB;
+package no.westerdals.shiale14.pikachucatcher.JSON;
 
 /**
- * Created by Alexander on 26.05.2016.
+ * Created by Alexander on 28.05.2016.
  *
  */
-public class Pikachu {
+public class PikachuJSON {
 
-    private int id;
-    private String _id, pikachuId, name, imageUrl;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String _id, id, name, imageUrl;
 
     public String get_id() {
         return _id;
@@ -25,12 +16,12 @@ public class Pikachu {
         this._id = _id;
     }
 
-    public String getPikachuId() {
-        return pikachuId;
+    public String getId() {
+        return id;
     }
 
-    public void setPikachuId(String pikachuId) {
-        this.pikachuId = pikachuId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,9 +42,9 @@ public class Pikachu {
 
     @Override
     public String toString() {
-        return "Pikachu{" +
+        return "PikachuJSON{" +
                 "_id='" + _id + '\'' +
-                ", pikachuId='" + pikachuId + '\'' +
+                ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
