@@ -89,14 +89,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.resultMenuItem:
-                Intent intent = new Intent(context, ResultActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(context, ResultActivity.class));
                 return true;
             case R.id.descriptionMenuItem:
                 DescriptionDialog descriptionDialog = new DescriptionDialog(MainActivity.this);
                 descriptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 descriptionDialog.show();
                 return true;
+            case R.id.scoresMenuItem:
+                startActivity(new Intent(context, ScoresActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 LocationDataSource locationDataSource = new LocationDataSource(context);
                 locationDataSource.open();
 
-                //TODO: here can be developed a more efficient way to save/update location data
+                //TODO: more efficient way to save/update location data could be introduced here afterwords
 
                 if (locationDataSource.getLocations().isEmpty()) {
                     for (LocationJSON l : locationsFromJson) {

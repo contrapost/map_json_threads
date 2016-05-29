@@ -38,7 +38,8 @@
             android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".Activities.CatchActivity" />
-        <activity android:name=".Activities.ResultActivity"></activity>
+        <activity android:name=".Activities.ResultActivity" />
+        <activity android:name=".Activities.ScoresActivity"></activity>
     </application>
 
 </manifest>

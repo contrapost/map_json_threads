@@ -9,6 +9,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -49,14 +51,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float sumLat = 0, sumLng = 0;
         int count = 0;
         List<Location> locations = lds.getLocations();
-        for(Location l : locations) {
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLat(), l.getLng())).title(l.getName()));
+        for (Location l : locations) {
+            BitmapDescriptor color = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+            String caught = " isn't caught";
+            if (l.getCought()) {
+                color = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                caught = " is caught";
+            }
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(l.getLat(), l.getLng()))
+                    .title(l.getName() + caught)
+                    .icon(color));
             sumLat += l.getLat();
             sumLng += l.getLng();
             count++;
         }
         lds.close();
-        LatLng avrLatLng = new LatLng(sumLat/count, sumLng/count);
+        LatLng avrLatLng = new LatLng(sumLat / count, sumLng / count);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(avrLatLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(avrLatLng, 12.8f));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -74,4 +85,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         googleMap.setMyLocationEnabled(true);
     }
+
+    //TODO: create activity with map fragment and action bar using following code:
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.maps, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.homeMenuItem:
+//                startActivity(new Intent(this, MainActivity.class));
+//                return true;
+//            case R.id.resultMenuItem:
+//                startActivity(new Intent(this, ResultActivity.class));
+//                return true;
+//            case R.id.scoresMenuItem:
+//                startActivity(new Intent(this, ScoresActivity.class));
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 }

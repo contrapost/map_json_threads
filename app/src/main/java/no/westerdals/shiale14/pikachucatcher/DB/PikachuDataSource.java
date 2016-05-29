@@ -55,6 +55,10 @@ public class PikachuDataSource {
         return pikachus;
     }
 
+    public boolean isEmpty() {
+        return new ContentValues().size() == 0;
+    }
+
     private Pikachu pikachuFromCursor(final Cursor cursor) {
         Pikachu pikachu = new Pikachu();
 

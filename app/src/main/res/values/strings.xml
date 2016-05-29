@@ -6,7 +6,15 @@
     <string name="btnResults">Zoo</string>
     <string name="menuItemResults">Zoo</string>
     <string name="menuItemDescription">Description</string>
-    <string name="descriptionText">description</string>
+    <string name="descriptionText">description description description description description description</string>
     <string name="descriptionBtnCloseText">Close</string>
     <string name="title_activity_maps">PikachuMap</string>
+    <string name="menuItemScores">Scores</string>
+    <string name="scoresTitleTextView">SCORES</string>
+    <string name="menuItemHome">Home</string>
+    <string name="resultTitleText">Pikachu Zoo</string>
+    <string name="menuItemMaps">Map</string>
+    <string name="hintTextPikachuId">Insert Pikachu ID</string>
+    <string name="btnCatchWithID">CATCH!</string>
+    <string name="catchDiscriptionText">Attach the prone to NFC tag or insert Pikachu ID and push the button</string>
 </resources>

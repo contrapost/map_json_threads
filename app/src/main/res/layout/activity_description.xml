@@ -9,7 +9,7 @@
     android:layout_alignParentTop="true"
     android:layout_marginTop="81dp"
     android:orientation="vertical"
-    android:background="@color/colorActionBar"
+    android:background="@color/background_material_light"
     android:padding="10dip">
 
 
@@ -19,7 +19,7 @@
         android:text="@string/descriptionText"
         android:id="@+id/textViewDropBox"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/colorText" />
+        android:textColor="@color/abc_primary_text_disable_only_material_light" />
 
     <Button
         android:layout_width="wrap_content"
@@ -27,6 +27,6 @@
         android:text="@string/descriptionBtnCloseText"
         android:id="@+id/btnDescriptionClose"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorText"
-        android:textColor="@color/colorButton" />
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/background_light" />
 </LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeMenuItem"
+        android:title="@string/menuItemHome" />
+    <item
+        android:id="@+id/mapsMenuItem"
+        android:title="@string/menuItemMaps" />
+    <item
+        android:id="@+id/resultMenuItem"
+        android:title="@string/resultTitleText" />
+</menu>

@@ -4,4 +4,5 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Activities.MapsActivity" />
+    tools:context=".Activities.MapsActivity"
+    tools:layout="@layout/abc_action_menu_item_layout" />
