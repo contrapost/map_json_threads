@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,20 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
 
-import no.westerdals.shiale14.pikachucatcher.DB.Location;
-import no.westerdals.shiale14.pikachucatcher.DB.LocationDataSource;
-import no.westerdals.shiale14.pikachucatcher.JSON.LocationJSON;
+import no.westerdals.shiale14.pikachucatcher.Net.Response;
 import no.westerdals.shiale14.pikachucatcher.R;
 
 public class CatchActivity extends AppCompatActivity {
@@ -34,7 +26,7 @@ public class CatchActivity extends AppCompatActivity {
     private Button btnCatch;
     private Context context;
     private EditText pikachuIdInput;
-    private String url;
+    private String url, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +36,8 @@ public class CatchActivity extends AppCompatActivity {
         context = this;
 
         url = "https://locations.lehmann.tech/pokemon/";
+        //noinspection SpellCheckingInspection
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.InNoaWFsZTE0Ig.wn-j-S2hPYcNLudRCsMjxlLgzzSvwinLjqQu4iSOAa4\n";
 
         initWidgets();
         initListeners();
@@ -64,9 +58,9 @@ public class CatchActivity extends AppCompatActivity {
     }
 
     private void checkId(String id) {
-        String urlWithId = url + id.trim();
+        final String urlWithId = url + id.trim();
 
-        new AsyncTask<Void, Void, List<LocationJSON>>() {
+        new AsyncTask<Void, Void, Response>() {
 
             private ProgressDialog progressDialog = new ProgressDialog(CatchActivity.this);
 
@@ -74,76 +68,31 @@ public class CatchActivity extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                progressDialog.setMessage("Searching for Pikachu");
+                progressDialog.setMessage("Checking the id");
                 progressDialog.show();
             }
 
             @Override
-            protected List<LocationJSON> doInBackground(final Void... params) {
+            protected Response doInBackground(final Void... params) {
 
                 try {
                     HttpURLConnection connection =
-                            (HttpURLConnection) new URL("https://locations.lehmann.tech/locations").openConnection();
-                    Scanner scanner = new Scanner(connection.getInputStream());
-
-                    final StringBuilder builder = new StringBuilder();
-
-                    while (scanner.hasNextLine()) {
-                        builder.append(scanner.nextLine());
-                    }
-
-                    String json = builder.toString();
-
-                    Gson gson = new Gson();
-                    Type collectionType = new TypeToken<List<LocationJSON>>() {
-                    }.getType();
-
-                    return gson.fromJson(json, collectionType);
+                            (HttpURLConnection) new URL(urlWithId).openConnection();
                 } catch (IOException e) {
                     throw new RuntimeException("Encountered a problem while fetching website", e);
-                }
+                } /* catch (FileNotFoundException e) {
+
+                } */
+
+                return new Response(1, "1");
             }
 
             @Override
-            protected void onPostExecute(final List<LocationJSON> locationsFromJson) {
-                super.onPostExecute(locationsFromJson);
+            protected void onPostExecute(final Response response) {
+                super.onPostExecute(response);
 
-                LocationDataSource locationDataSource = new LocationDataSource(context);
-                locationDataSource.open();
-
-                //TODO: more efficient way to save/update location data could be introduced here afterwords
-
-                if (locationDataSource.getLocations().isEmpty()) {
-                    for (LocationJSON l : locationsFromJson) {
-                        saveLocation(l, locationDataSource);
-                    }
-                } else {
-                    List<Location> locationsFromDB = locationDataSource.getLocations();
-                    HashSet<String> locationIds = new HashSet<>(locationsFromDB.size());
-                    for (Location l : locationsFromDB) {
-                        locationIds.add(l.getLocationId());
-                    }
-                    for (LocationJSON l : locationsFromJson) {
-                        if (locationIds.contains(l.get_id())
-                                || l.get_id() == null) { // prevents from saving locations without _id
-                            break;
-                        }
-                        saveLocation(l, locationDataSource);
-                    }
-                }
-
-                locationDataSource.close();
 
                 progressDialog.cancel();
-            }
-
-            private void saveLocation(LocationJSON location, LocationDataSource locationDataSource) {
-                Location tempLocation = new Location();
-                tempLocation.setLocationId(location.get_id());
-                tempLocation.setName(location.getName());
-                tempLocation.setLat(location.getLat());
-                tempLocation.setLng(location.getLng());
-                locationDataSource.saveLocation(tempLocation);
             }
 
         }.execute();
