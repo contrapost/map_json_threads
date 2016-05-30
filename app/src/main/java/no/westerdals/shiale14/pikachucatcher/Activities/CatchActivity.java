@@ -82,11 +82,17 @@ public class CatchActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        statusMessage.setText("");
+        pikachuIdInput.setText("");
+    }
+
     private void initWidgets() {
         btnCatch = (Button) findViewById(R.id.btnCatchWithID);
         pikachuIdInput = (EditText) findViewById(R.id.pikachuIdEditText);
         statusMessage = (TextView) findViewById(R.id.statusOfCheckingIdtextView);
-        statusMessage.setText("");
     }
 
     private void initListeners() {
