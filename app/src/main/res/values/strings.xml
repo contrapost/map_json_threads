@@ -16,5 +16,5 @@
     <string name="menuItemMaps">Map</string>
     <string name="hintTextPikachuId">Insert Pikachu ID</string>
     <string name="btnCatchWithID">CATCH!</string>
-    <string name="catchDiscriptionText">Attach the prone to NFC tag or insert Pikachu ID and push the button</string>
+    <string name="catchDiscriptionText">Approach NFC tag or insert Pikachu ID and ... PUSH Z BUTTON!!!</string>
 </resources>

@@ -36,7 +36,7 @@ public class LocationDataSource {
         contentValues.put("name", location.getName());
         contentValues.put("lat", location.getLat());
         contentValues.put("lng", location.getLng());
-        contentValues.put("isCought", location.getCought());
+        contentValues.put("isCaught", location.isCaught());
 
         db.insert("location", null, contentValues);
     }
@@ -44,14 +44,14 @@ public class LocationDataSource {
     public void updateCaughtStatus(int id){
         String _id = "id=" + id;
         ContentValues contentValues = new ContentValues();
-        contentValues.put("isCought", true);
+        contentValues.put("isCaught", true);
         db.update("location", contentValues, _id, null);
     }
 
     public List<Location> getLocations() {
         List<Location> locations = new ArrayList<>();
 
-        String[] columns = { "id", "locationId", "name", "lat", "lng", "isCought" };
+        String[] columns = { "id", "locationId", "name", "lat", "lng", "isCaught" };
 
         Cursor cursor = db.query("location", columns, null, null, null, null, null);
         cursor.moveToFirst();
@@ -71,7 +71,7 @@ public class LocationDataSource {
         location.setName(cursor.getString(2));
         location.setLat(cursor.getFloat(3));
         location.setLng(cursor.getFloat(4));
-        location.setCought(cursor.getInt(5) > 0);
+        location.setCaught(cursor.getInt(5) > 0);
 
         return location;
     }

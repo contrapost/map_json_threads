@@ -54,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (Location l : locations) {
             BitmapDescriptor color = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
             String caught = " isn't caught";
-            if (l.getCought()) {
+            if (l.isCaught()) {
                 color = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
                 caught = " is caught";
             }

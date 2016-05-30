@@ -26,7 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         + "name text,"
                         + "lat real,"
                         + "lng real,"
-                        + "isCought boolean);";
+                        + "isCaught boolean);";
 
         db.execSQL(createLocationTableSQL);
 

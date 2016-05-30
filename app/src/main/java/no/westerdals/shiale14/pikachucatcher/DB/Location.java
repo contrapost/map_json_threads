@@ -9,7 +9,7 @@ public class Location {
     private int id;
     private String locationId, name;
     private float lat, lng;
-    private boolean isCought;
+    private boolean isCaught;
 
     public int getId() {
         return id;
@@ -51,17 +51,17 @@ public class Location {
         this.lng = lng;
     }
 
-    public void setCought(boolean cought) {
-        isCought = cought;
+    public void setCaught(boolean caught) {
+        isCaught = caught;
     }
 
-    public boolean getCought() {
-        return isCought;
+    public boolean isCaught() {
+        return isCaught;
     }
 
     @Override
     public String toString() {
         return "{name: " + name + ", locationId:" + locationId + ", lat:" + lat +
-                ", lng: " + lng + ", has been cought: " + isCought + "}";
+                ", lng: " + lng + ", has been caught: " + isCaught + "}";
     }
 }
