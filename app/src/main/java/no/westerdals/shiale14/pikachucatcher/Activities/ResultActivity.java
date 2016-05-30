@@ -18,13 +18,28 @@ import no.westerdals.shiale14.pikachucatcher.R;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        ListView listView = (ListView) findViewById(R.id.listViewResults);
+        initWidgets();
+        loadPikachus();
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        loadPikachus();
+    }
+
+    private void initWidgets() {
+        listView = (ListView) findViewById(R.id.listViewResults);
+    }
+
+    private void loadPikachus() {
         PikachuDataSource pds = new PikachuDataSource(this);
         pds.open();
 
