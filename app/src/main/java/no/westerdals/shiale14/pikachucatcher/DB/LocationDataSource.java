@@ -41,6 +41,13 @@ public class LocationDataSource {
         db.insert("location", null, contentValues);
     }
 
+    public void updateCaughtStatus(int id){
+        String _id = "id=" + id;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("isCought", true);
+        db.update("location", contentValues, _id, null);
+    }
+
     public List<Location> getLocations() {
         List<Location> locations = new ArrayList<>();
 

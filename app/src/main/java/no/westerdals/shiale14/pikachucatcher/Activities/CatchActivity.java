@@ -29,6 +29,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
+import no.westerdals.shiale14.pikachucatcher.DB.Location;
+import no.westerdals.shiale14.pikachucatcher.DB.LocationDataSource;
 import no.westerdals.shiale14.pikachucatcher.DB.Pikachu;
 import no.westerdals.shiale14.pikachucatcher.DB.PikachuDataSource;
 import no.westerdals.shiale14.pikachucatcher.JSON.PikachuJSON;
@@ -212,6 +214,7 @@ public class CatchActivity extends AppCompatActivity {
         pikachuDataSource.open();
         Gson gson = new Gson();
         PikachuJSON pikachuJSON = gson.fromJson(response.getBody(), PikachuJSON.class);
+        updateLocations(pikachuJSON);
         Pikachu pikachu = new Pikachu();
         pikachu.set_id(pikachuJSON.get_id());
         pikachu.setPikachuId(pikachuJSON.getId());
@@ -222,6 +225,19 @@ public class CatchActivity extends AppCompatActivity {
 
         //TODO: Sending to ResultActivity
         Toast.makeText(context, "Saved to DB", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateLocations(PikachuJSON pikachuJSON) {
+        LocationDataSource locationDataSource = new LocationDataSource(context);
+        locationDataSource.open();
+        String pikachuName = pikachuJSON.getName();
+        List<Location> locations = locationDataSource.getLocations();
+        assert locations != null;
+        for (Location l : locations) {
+            if(l.getName().equals(pikachuName)){
+                locationDataSource.updateCaughtStatus(l.getId());
+            }
+        }
     }
 
     @Override
