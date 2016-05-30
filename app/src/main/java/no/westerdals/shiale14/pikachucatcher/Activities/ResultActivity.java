@@ -28,7 +28,7 @@ public class ResultActivity extends AppCompatActivity {
         PikachuDataSource pds = new PikachuDataSource(this);
         pds.open();
 
-        if (!pds.isEmpty()) {
+        if (!pds.getPikachus().isEmpty()) {
             List<Pikachu> pikachus = pds.getPikachus();
             ArrayAdapter<Pikachu> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pikachus);
             assert listView != null;

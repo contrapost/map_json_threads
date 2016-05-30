@@ -35,7 +35,7 @@ public class PikachuDataSource {
         contentValues.put("_id", pikachu.get_id());
         contentValues.put("pikachuId", pikachu.getPikachuId());
         contentValues.put("name", pikachu.getName());
-        contentValues.put("imageUrl", pikachu.getImageUrl());
+        contentValues.put("urlImage", pikachu.getImageUrl());
 
         db.insert("pikachu", null, contentValues);
     }
@@ -53,10 +53,6 @@ public class PikachuDataSource {
         }
 
         return pikachus;
-    }
-
-    public boolean isEmpty() {
-        return new ContentValues().size() == 0;
     }
 
     private Pikachu pikachuFromCursor(final Cursor cursor) {

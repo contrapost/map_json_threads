@@ -19,14 +19,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        String createTablesSQL =
+        String createLocationTableSQL =
                 "create table location ("
                         + "id integer primary key autoincrement,"
                         + "locationId text,"
                         + "name text,"
                         + "lat real,"
                         + "lng real,"
-                        + "isCought boolean);" +
+                        + "isCought boolean);";
+
+        db.execSQL(createLocationTableSQL);
+
+        String createPikachuTableSQL =
                 "create table pikachu ("
                         + "id integer primary key autoincrement,"
                         + "_id text,"
@@ -34,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         + "name text,"
                         + "urlImage text);";
 
-        db.execSQL(createTablesSQL);
+        db.execSQL(createPikachuTableSQL);
     }
 
     @Override
