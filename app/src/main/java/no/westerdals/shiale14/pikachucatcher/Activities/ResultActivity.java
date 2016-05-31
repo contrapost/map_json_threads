@@ -62,7 +62,6 @@ public class ResultActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_expandable_list_item_1,
                     dummyList);
-            assert listView != null;
             listView.setAdapter(adapter);
         }
 

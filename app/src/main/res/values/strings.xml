@@ -6,7 +6,12 @@
     <string name="btnResults">Zoo</string>
     <string name="menuItemResults">Zoo</string>
     <string name="menuItemDescription">Description</string>
-    <string name="descriptionText">description description description description description description</string>
+    <string name="descriptionText">
+        1. Open the Map and look for places where pikachu was detected.
+        2. Go to the place and look for a tag with code and NFC tag.
+        3. Open "Catch!" page and insert the code or approach the NFC tag.
+        4. You can find all pikachus you have caught on Zoo page.
+        5. All registered players and their scores are registered on Score page.</string>
     <string name="descriptionBtnCloseText">Close</string>
     <string name="title_activity_maps">PikachuMap</string>
     <string name="menuItemScores">Scores</string>
@@ -16,6 +21,6 @@
     <string name="menuItemMaps">Map</string>
     <string name="hintTextPikachuId">Insert Pikachu ID</string>
     <string name="btnCatchWithID">CATCH!</string>
-    <string name="catchDiscriptionText">Approach NFC tag or insert Pikachu ID and ... PUSH Z BUTTON!!!</string>
+    <string name="catchDescriptionText">Approach NFC tag or insert Pikachu ID and &#8230; PUSH Z BUTTON!!!</string>
     <string name="pikachuPictureContentView">Pikachu image</string>
 </resources>
