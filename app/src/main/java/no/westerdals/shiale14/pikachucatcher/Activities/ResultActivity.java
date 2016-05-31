@@ -15,6 +15,7 @@ import java.util.List;
 import no.westerdals.shiale14.pikachucatcher.DB.Pikachu;
 import no.westerdals.shiale14.pikachucatcher.DB.PikachuDataSource;
 import no.westerdals.shiale14.pikachucatcher.R;
+import no.westerdals.shiale14.pikachucatcher.Util.ListAdapterWithImage;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -45,9 +46,16 @@ public class ResultActivity extends AppCompatActivity {
 
         if (!pds.getPikachus().isEmpty()) {
             List<Pikachu> pikachus = pds.getPikachus();
-            ArrayAdapter<Pikachu> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pikachus);
-            assert listView != null;
-            listView.setAdapter(adapter);
+            String[] pikachuNames = new String[pikachus.size()];
+            String[] imageUrls = new String[pikachus.size()];
+
+            for(int i = 0; i < pikachus.size(); i++) {
+                imageUrls[i] = pikachus.get(i).getImageUrl();
+                pikachuNames[i] = pikachus.get(i).getName();
+            }
+
+            ListAdapterWithImage listAdapterWithImage = new ListAdapterWithImage(this, pikachuNames, imageUrls);
+            listView.setAdapter(listAdapterWithImage);
         } else {
             ArrayList<String> dummyList = new ArrayList<>();
             dummyList.add("You haven't caught one yet!");
@@ -60,6 +68,7 @@ public class ResultActivity extends AppCompatActivity {
 
         pds.close();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,4 +92,5 @@ public class ResultActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

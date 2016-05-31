@@ -1,5 +1,6 @@
 package no.westerdals.shiale14.pikachucatcher.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -168,36 +169,47 @@ public class CatchActivity extends AppCompatActivity {
                 return null;
             }
 
+            @SuppressWarnings("ConstantConditions")
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onPostExecute(final Response response) {
                 super.onPostExecute(response);
 
                 if (response == null) {
-
+                    Toast.makeText(context, "Wasn't able to check the ID", Toast.LENGTH_LONG).show();
                 } else {
                     if(response.getStatusCode() > 400) {
                         statusMessage.setText(response.getStatusCode() + " " + response.getBody());
                     }
+
+                    boolean isCaught = false;
                     if(response.getStatusCode() == 201) {
-                        savePikachuInDB(response);
+                        savePikachuInDB(response, isCaught);
                     }
                     if(response.getStatusCode() == 200) {
-                        Toast.makeText(context, "Already caught!", Toast.LENGTH_LONG).show();
+                        isCaught = true;
+                        Gson gson = new Gson();
+                        PikachuJSON pikachuJSON = gson.fromJson(response.getBody(), PikachuJSON.class);
+
+                        Toast.makeText(context, "Already caught " + pikachuJSON.getName() + "!", Toast.LENGTH_SHORT).show();
+
                         PikachuDataSource pikachuDataSource = new PikachuDataSource(context);
                         pikachuDataSource.open();
+
                         if(pikachuDataSource.getPikachus().isEmpty()){
-                            savePikachuInDB(response);
+                            savePikachuInDB(response, isCaught);
                         } else {
+                            String pikachuId = pikachuJSON.get_id();
+
                             List<Pikachu> pikachusFromDB = pikachuDataSource.getPikachus();
                             HashSet<String> pikachuIds = new HashSet<>(pikachusFromDB.size());
-                            Gson gson = new Gson();
-                            PikachuJSON pikachuJSON = gson.fromJson(response.getBody(), PikachuJSON.class);
-                            String pikachuId = pikachuJSON.get_id();
+
                             for(Pikachu p : pikachusFromDB) {
                                 pikachuIds.add(p.get_id());
                             }
+
                             if(!pikachuIds.contains(pikachuId)){
-                                savePikachuInDB(response);
+                                savePikachuInDB(response, isCaught);
                             }
                         }
 
@@ -209,22 +221,28 @@ public class CatchActivity extends AppCompatActivity {
         }.execute();
     }
 
-    private void savePikachuInDB(Response response) {
-        PikachuDataSource pikachuDataSource = new PikachuDataSource(context);
-        pikachuDataSource.open();
+    private void savePikachuInDB(Response response, boolean isCaught) {
         Gson gson = new Gson();
         PikachuJSON pikachuJSON = gson.fromJson(response.getBody(), PikachuJSON.class);
+
+        PikachuDataSource pikachuDataSource = new PikachuDataSource(context);
+        pikachuDataSource.open();
+
         updateLocations(pikachuJSON);
+
         Pikachu pikachu = new Pikachu();
         pikachu.set_id(pikachuJSON.get_id());
         pikachu.setPikachuId(pikachuJSON.getId());
         pikachu.setName(pikachuJSON.getName());
         pikachu.setImageUrl(pikachuJSON.getImageUrl());
         pikachuDataSource.savePikachu(pikachu);
+
         pikachuDataSource.close();
 
-        //TODO: Sending to ResultActivity
-        Toast.makeText(context, "Saved to DB", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(context, ResultActivity.class));
+        if(!isCaught) {
+            Toast.makeText(context, "You've caught " + pikachuJSON.getName() + "!", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void updateLocations(PikachuJSON pikachuJSON) {

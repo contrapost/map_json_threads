@@ -17,4 +17,5 @@
     <string name="hintTextPikachuId">Insert Pikachu ID</string>
     <string name="btnCatchWithID">CATCH!</string>
     <string name="catchDiscriptionText">Approach NFC tag or insert Pikachu ID and ... PUSH Z BUTTON!!!</string>
+    <string name="pikachuPictureContentView">Pikachu image</string>
 </resources>
