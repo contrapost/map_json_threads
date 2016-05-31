@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.catchMenuItem:
+                startActivity(new Intent(context, CatchActivity.class));
+                return true;
+            case R.id.mapsMenuItem:
+                startActivity(new Intent(context, MapsActivity.class));
+                return true;
             case R.id.resultMenuItem:
                 startActivity(new Intent(context, ResultActivity.class));
                 return true;
@@ -98,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.scoresMenuItem:
                 startActivity(new Intent(context, ScoresActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

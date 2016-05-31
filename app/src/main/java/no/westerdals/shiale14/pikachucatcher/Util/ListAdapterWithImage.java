@@ -2,7 +2,6 @@ package no.westerdals.shiale14.pikachucatcher.Util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;

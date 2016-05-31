@@ -15,11 +15,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/pikachu"
-        android:layout_marginTop="37dp"
         android:contentDescription="@string/logo"
         android:adjustViewBounds="true"
         android:maxWidth="300dp"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <Button

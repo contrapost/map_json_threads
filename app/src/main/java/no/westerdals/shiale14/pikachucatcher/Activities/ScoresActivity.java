@@ -118,6 +118,10 @@ public class ScoresActivity extends AppCompatActivity {
                 return true;
             case R.id.resultMenuItem:
                 startActivity(new Intent(this, ResultActivity.class));
+                return true;
+            case R.id.catchMenuItem:
+                startActivity(new Intent(this, CatchActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

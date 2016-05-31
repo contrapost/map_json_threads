@@ -41,7 +41,6 @@ import no.westerdals.shiale14.pikachucatcher.R;
 public class CatchActivity extends AppCompatActivity {
 
     private Button btnCatch;
-    private TextView statusMessage;
     private EditText pikachuIdInput;
     private String url, token;
     private Context context;
@@ -88,14 +87,12 @@ public class CatchActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        statusMessage.setText("");
         pikachuIdInput.setText("");
     }
 
     private void initWidgets() {
         btnCatch = (Button) findViewById(R.id.btnCatchWithID);
         pikachuIdInput = (EditText) findViewById(R.id.pikachuIdEditText);
-        statusMessage = (TextView) findViewById(R.id.statusOfCheckingIdtextView);
     }
 
     private void initListeners() {
@@ -104,10 +101,8 @@ public class CatchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkId(pikachuIdInput.getText().toString());
 
-                statusMessage.setText("");
-
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(statusMessage.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(pikachuIdInput.getWindowToken(), 0);
             }
         });
     }
@@ -179,7 +174,7 @@ public class CatchActivity extends AppCompatActivity {
                     Toast.makeText(context, "Wasn't able to check the ID", Toast.LENGTH_LONG).show();
                 } else {
                     if(response.getStatusCode() > 400) {
-                        statusMessage.setText(response.getStatusCode() + " " + response.getBody());
+                        Toast.makeText(context, response.getStatusCode() + " " + response.getBody(), Toast.LENGTH_LONG).show();
                     }
 
                     boolean isCaught = false;

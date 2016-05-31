@@ -19,8 +19,10 @@
     <string name="menuItemHome">Home</string>
     <string name="resultTitleText">Pikachu Zoo</string>
     <string name="menuItemMaps">Map</string>
-    <string name="hintTextPikachuId">Insert Pikachu ID</string>
+    <string name="hintTextPikachuId">enter pikachu id</string>
     <string name="btnCatchWithID">CATCH!</string>
-    <string name="catchDescriptionText">Approach NFC tag or insert Pikachu ID and &#8230; PUSH Z BUTTON!!!</string>
+    <string name="catchDescriptionText">OR APPROACH THE NFC TAG</string>
     <string name="pikachuPictureContentView">Pikachu image</string>
+    <string name="imageViewNFCTag">NFC tag</string>
+    <string name="insertIdDescriptionTextView"><![CDATA[ENTER PIKACHU CODE]]></string>
 </resources>

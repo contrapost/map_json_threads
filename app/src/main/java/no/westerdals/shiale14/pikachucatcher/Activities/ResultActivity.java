@@ -87,6 +87,10 @@ public class ResultActivity extends AppCompatActivity {
                 return true;
             case R.id.scoresMenuItem:
                 startActivity(new Intent(this, ScoresActivity.class));
+                return true;
+            case R.id.catchMenuItem:
+                startActivity(new Intent(this, CatchActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

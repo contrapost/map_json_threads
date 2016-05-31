@@ -9,4 +9,7 @@
     <item
         android:id="@+id/scoresMenuItem"
         android:title="@string/menuItemScores" />
+    <item
+        android:id="@+id/catchMenuItem"
+        android:title="@string/btnCatch" />
 </menu>
