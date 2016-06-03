@@ -17,7 +17,7 @@
     <string name="menuItemScores">Scores</string>
     <string name="scoresTitleTextView">SCORES</string>
     <string name="menuItemHome">Home</string>
-    <string name="resultTitleText">Pikachu Zoo</string>
+    <string name="resultTitleText">Pokemon Zoo</string>
     <string name="menuItemMaps">Map</string>
     <string name="hintTextPikachuId">enter pikachu id</string>
     <string name="btnCatchWithID">CATCH!</string>

@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -145,13 +146,20 @@ public class MainActivity extends AppCompatActivity {
 
                     return gson.fromJson(json, collectionType);
                 } catch (IOException e) {
-                    throw new RuntimeException("Encountered a problem while fetching website", e);
+                    e.printStackTrace();
+                    return null;
                 }
             }
 
             @Override
             protected void onPostExecute(final List<LocationJSON> locationsFromJson) {
                 super.onPostExecute(locationsFromJson);
+
+                if (locationsFromJson == null) {
+                    Toast.makeText(context, "Cannot detect pikachus. No connection!", Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
+                    return;
+                }
 
                 LocationDataSource locationDataSource = new LocationDataSource(context);
                 locationDataSource.open();
@@ -169,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
                         locationIds.add(l.getLocationId());
                     }
                     for (LocationJSON l : locationsFromJson) {
-                            if (locationIds.contains(l.get_id())
-                                    || l.get_id() == null) { // prevents from saving locations without _id
-                                break;
-                            }
-                            saveLocation(l, locationDataSource);
+                        if (locationIds.contains(l.get_id())
+                                || l.get_id() == null) { // prevents from saving locations without _id
+                            break;
+                        }
+                        saveLocation(l, locationDataSource);
                     }
                 }
 

@@ -1,15 +1,17 @@
 package no.westerdals.shiale14.pikachucatcher.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,11 +29,14 @@ import no.westerdals.shiale14.pikachucatcher.R;
 public class ScoresActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scores);
+
+        context = this;
 
         initWidgets();
         downloadScores();
@@ -78,13 +83,20 @@ public class ScoresActivity extends AppCompatActivity {
 
                     return gson.fromJson(json, collectionType);
                 } catch (IOException e) {
-                    throw new RuntimeException("Encountered a problem while fetching website", e);
+                    e.printStackTrace();
+                    return null;
                 }
             }
 
             @Override
             protected void onPostExecute(final List<ScoreJSON> scoreJSONs) {
                 super.onPostExecute(scoreJSONs);
+
+                if (scoreJSONs == null) {
+                    Toast.makeText(context, "Cannot download scores. No connection!", Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
+                    return;
+                }
 
                 showScores(scoreJSONs);
 
@@ -96,7 +108,6 @@ public class ScoresActivity extends AppCompatActivity {
 
     private void showScores(List<ScoreJSON> scoreJSONs) {
         ArrayAdapter<ScoreJSON> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scoreJSONs);
-        assert listView != null;
         listView.setAdapter(adapter);
     }
 

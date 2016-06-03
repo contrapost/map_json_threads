@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -159,7 +158,7 @@ public class CatchActivity extends AppCompatActivity {
 
                     e.printStackTrace();
                 } catch (IOException e) {
-                    throw new RuntimeException("Encountered a problem while fetching website", e);
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -169,6 +168,12 @@ public class CatchActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(final Response response) {
                 super.onPostExecute(response);
+
+                if (response == null) {
+                    Toast.makeText(context, "Cannot check the ID. No connection!", Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
+                    return;
+                }
 
                 if (response == null) {
                     Toast.makeText(context, "Wasn't able to check the ID", Toast.LENGTH_LONG).show();
